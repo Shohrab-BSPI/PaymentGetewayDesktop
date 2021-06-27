@@ -2,6 +2,8 @@ package registration;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +14,12 @@ import javax.swing.JTextField;
 
 public class RegistrationForm extends JFrame{
 
+	private JTextField tfName;
+	private JTextField tfEmail;
+	private JPasswordField psPassword;
+	private JPasswordField psPasswordC;
+	private JButton bSubmit;
+	private JButton bClear;
 	private JLabel lblName;
 	private JLabel lblEmail;
 	private JLabel lblPassword;
@@ -25,63 +33,79 @@ public class RegistrationForm extends JFrame{
 	private JPanel pnlButton;
 	
 	
-	RegistrationForm(){
-		FormContext formContext = FormContext.getContext();
-		formContext.setTfName(new JTextField());
-		formContext.setTfEmail(new JTextField());
-		formContext.setPsPassword(new JPasswordField());
-		formContext.setPsPasswordC(new JPasswordField());
-		formContext.setbSubmit(new JButton("Submit"));
-		formContext.setbClear( new JButton("Clear"));
+	public RegistrationForm(){
+		initialize();
+	}
+
+	private void initialize() {
+		tfName = new JTextField();
+		tfEmail = new JTextField();
+		psPassword = new JPasswordField();
+		psPasswordC = new JPasswordField();
+		bSubmit = new JButton("Submit");
+		bClear = new JButton("Clear");
 		lblName = new JLabel("NAME");
 		lblEmail = new JLabel("Email");
 		lblPassword = new JLabel("Password");
 		lblPasswordC = new JLabel("Retype Password");
-		
+
 		pnlWrapper = new JPanel(new GridLayout(20,1));
-		pnlName = new JPanel(new GridLayout(1,2));
+
+		GridLayout row1Col2 = new GridLayout();
+
+		pnlName = new JPanel(row1Col2);
 		pnlName.add(lblName);
-		pnlName.add(formContext.getTfName());
+		pnlName.add(tfName);
 		pnlWrapper.add(pnlName);
 
-		pnlEmail = new JPanel(new GridLayout(1,2));
+		pnlEmail = new JPanel(row1Col2);
 		pnlEmail.add(lblEmail);
-		pnlEmail.add(formContext.getTfEmail());
+		pnlEmail.add(tfEmail);
 		pnlWrapper.add(pnlEmail);
-		
-		pnlPassword = new JPanel(new GridLayout(1,2));
+
+		pnlPassword = new JPanel(row1Col2);
 		pnlPassword.add(lblPassword);
-		pnlPassword.add(formContext.getPsPassword());
+		pnlPassword.add(psPassword);
 		pnlWrapper.add(pnlPassword);
-		
-		pnlPasswordC = new JPanel(new GridLayout(1,2));
+
+		pnlPasswordC = new JPanel(row1Col2);
 		pnlPasswordC.add(lblPasswordC);
-		pnlPasswordC.add(formContext.getPsPasswordC());
+		pnlPasswordC.add(psPasswordC);
 		pnlWrapper.add(pnlPasswordC);
-		
-		pnlButton = new JPanel(new GridLayout(1,2));
-		formContext.getbClear().addActionListener(new ClearActionListener());
-		pnlButton.add(formContext.getbClear());
-		formContext.getbSubmit().addActionListener(new SubmitActionListener());
-		pnlButton.add(formContext.getbSubmit());
+
+
+		bClear.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearData();
+			}
+		});
+
+
+		bSubmit.addActionListener(e -> doRegister());
+
+		pnlButton = new JPanel(row1Col2);
+		pnlButton.add(bClear);
+		pnlButton.add(bSubmit);
 		pnlWrapper.add(pnlButton);
-		
-		
 
 		this.setLayout(new BorderLayout());
 		this.setSize(400, 600);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		this.add(pnlWrapper,BorderLayout.CENTER);
-		
-		
-		
-		
-		
 	}
-	public static void main(String[] args) {
-		new RegistrationForm();
+
+	private void doRegister() {
+		System.out.println("Register");
+	}
+
+	private void clearData() {
+		tfName.setText("");
+		tfEmail.setText("");
+		psPassword.setText("");
+		psPasswordC.setText("");
 	}
 }
 
